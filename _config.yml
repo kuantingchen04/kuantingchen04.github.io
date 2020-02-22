@@ -57,7 +57,7 @@ authors:
         name: John Doe
         bio: A Man who travels the world eating noodles
         external-image: false
-        picture: assets/images/profile.jpg
+        picture: assets/images/profile_old.jpg
         twitter: johndoe
     jamesfoster:
         name: James Foster
@@ -65,6 +65,13 @@ authors:
         external-image: false
         picture: assets/images/james.jpg
         twitter: jamesfoster
+    kevchen:
+        name: Kevin Chen
+        bio: A Man who loves coffee and reading
+        external-image: false
+        picture: assets/images/profile.jpg
+
+
 
 # do you want a larger site? change the option below
 # options: [normal, large] | default: normal
