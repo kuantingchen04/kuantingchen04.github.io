@@ -23,7 +23,7 @@ If you are developing softwares on multiple platform (Windows/Linux/MacOS), you 
 
 3. [Auto-Corrent Line Ending Format in Git](#iii-auto-correct-gits-text-line-ending)
     * [Git Configuration](#solution-1-git-configuration)
-    * [Setup .gitattributes](#solution-2-.gitattribute)
+    * [Setup .gitattributes](#solution-2-gitattribute)
 
 ---
 
@@ -69,11 +69,12 @@ To convert from Unix to DOS/Windows:
 foo@bar:~$ unix2dos testfile1.txt
 ```
 
-### Clion Users
+### Editor Users (Take JetBrains for Example)
 
-With CLion, you can set up line separators (line endings) for newly created files, and change line separator style for existing files.
+Lots of editors/IDE allow user to set up line separators (line endings) for newly created files, and change line separator style for existing files.
 
 ![lineseperators_image](https://resources.jetbrains.com/help/img/idea/2019.3/cl_lineseparators_settings.png)
+<figcaption class="caption">CLion Settings</figcaption><br/>
 
 ---
 
@@ -92,8 +93,7 @@ Git can handle this by auto-converting CRLF line endings into LF when you add a 
 There are three values for this variable: **true**, **input**, **false**.
 
 ![test](/assets/images/2020-02-21-autocrlf.png)
-<figcaption class="caption">Commit-Checkout Cycle</figcaption>
-
+<figcaption class="caption">Commit-Checkout Cycle</figcaption><br/>
 
 ```
 git config --global core.autocrlf true
@@ -113,7 +113,7 @@ git config --global core.autocrlf false
 
 * Set **core.autocrlf=false**: Git will not perform any conversions when checking out or committing text files. (Choosing this option is not recommended for cross-platform projects)
 
-### Solution 2: .gitattribute 
+### Solution 2: .gitattribute
 
 It is a good idea to keep a .gitattributes file as we don't want to expect everyone in our team set their config. This file should keep in repo's root path and if exist one, git will respect it.
 
