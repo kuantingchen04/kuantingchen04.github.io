@@ -6,13 +6,14 @@ image: /assets/images/markdown.jpg
 headerImage: false
 tag:
 - engineering
-- linux
+- git
+- 
 category: blog
 author: kevchen
 description: Line endings summary on different OS
 ---
 
-If you are developing softwares on multiple platform (Windows/Linux/MacOS), you will find that the line endings is sometimes pretty annoying, especially when reading files.
+If you are developing softwares on cross-platform projects (e.g. Windows/Linux/MacOS), you will find that the line endings is sometimes pretty annoying, especially when reading files.
 
 ## Outline
 1. [Line Endings (Line Seperators)](#i-line-ending-formats)
@@ -21,9 +22,11 @@ If you are developing softwares on multiple platform (Windows/Linux/MacOS), you 
 
 2. [How to Look-Up / Change Text's Terminators](#ii-look-up--change-texts-terminators)
 
-3. [Auto-Corrent Line Ending Format in Git](#iii-auto-correct-gits-text-line-ending)
+3. [[Git] Auto-Corrent Line Ending Format on Cross-Platform Projects](#iii-auto-correct-gits-text-line-ending)
     * [Git Configuration](#solution-1-git-configuration)
     * [Setup .gitattributes](#solution-2-gitattribute)
+
+4. [[Git] Ignore File Mode on Cross-Platform Projects](#iv-ignore-file-mode)
 
 ---
 
@@ -96,19 +99,19 @@ There are three values for this variable: **true**, **input**, **false**.
 <figcaption class="caption">Commit-Checkout Cycle</figcaption><br/>
 
 ```
-git config --global core.autocrlf true
+git config core.autocrlf true
 ```
 
 * Set **core.autocrlf=true**: Git will auto-convert CRLF line endings into LF when you add a file to the index; Git will convert LF to CRLF when checking out code.  (For cross-platform projects, this is the recommended setting on Windows)
 
 ```
-git config --global core.autocrlf input
+git config core.autocrlf input
 ``` 
 
 * Set **core.autocrlf=input**: When committing text files, CRLF will be converted to LF. Git will not perform any conversion when checking out text files. (For cross-platform projects this is the recommended setting on Unix, but don't use input under windows)
 
 ```
-git config --global core.autocrlf false
+git config core.autocrlf false
 ```
 
 * Set **core.autocrlf=false**: Git will not perform any conversions when checking out or committing text files. (Choosing this option is not recommended for cross-platform projects)
@@ -128,9 +131,59 @@ text=auto  #Convert to OS’s line ending
 ```
 * You can also tell it explicitly
 
+## IV. Ignore File Mode
+
+After you clone a repo, you may find that even if we set up `core.autocrlf` as we described above, it is still saying that files have been modified. The reason is that the file permissions may not be supported. (Linux has more complete access rights *-rwxrwxrwx* than Windows) You could try and set `core.fileMode` to **false**.
+
+```
+git config core.fileMode false
+```
+
+*If you set core.fileMode to false, make sure that executable's and script's permission is well handle.*
+
+As <https://stackoverflow.com/a/1580644> suggested, `core.fileMode` is not the best practice and should be used carefully. This setting only covers the executable bit of mode and never the read/write bits. In many cases you think you need this setting because you did something like `chmod -R 777`, making all your files executable. But in most projects **most files don't need and should not be executable for security reasons**.
+
+The proper way to solve this kind of situation is to handle folder and file permission separately, with something like:
+
+```
+find . -type d -exec chmod a+rwx {} \; # Make folders traversable and read/write
+find . -type f -exec chmod a+rw {} \;  # Make files read/write
+```
+
+```
+core.fileMode
+    
+    Tells Git if the executable bit of files in the working tree is to be honored.
+
+    Some filesystems lose the executable bit when a file that is marked as executable is
+    checked out, or checks out an non-executable file with executable bit on. [git-clone(1)]
+    (https://www.kernel.org/pub/software/scm/git/docs/git-clone.html) or [git-init(1)]
+    (https://www.kernel.org/pub/software/scm/git/docs/git-init.html) probe the filesystem to 
+    see if it handles the executable bit correctly and this variable is automatically set as 
+    necessary.
+
+    A repository, however, may be on a filesystem that handles the filemode correctly, and 
+    this variable is set to *true* when created, but later may be made accessible from 
+    another environment that loses the filemode (e.g. exporting ext4 via CIFS mount, visiting 
+    a Cygwin created repository with Git for Windows or Eclipse). In such a case it may be 
+    necessary to set this variable to *false*. See [git-update-index(1)]
+    (https://www.kernel.org/pub/software/scm/git/docs/git-update-index.html).
+
+    The default is true (when core.filemode is not specified in the config file).
+```
+
+
+
 ## Reference
+
+##### Line Endings
 * <https://en.wikipedia.org/wiki/Carriage_return#Computers>
 * <https://stackoverflow.com/a/3570574>
 * <https://www.jetbrains.com/help/clion/configuring-line-endings-and-line-separators.html>
 * <https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration>
 * <https://stackoverflow.com/a/20653073>
+
+##### File Mode
+* <https://www.jianshu.com/p/3b0a9904daca>
+* <https://stackoverflow.com/a/1580644>
+* <http://linuxcommand.org/lc3_lts0090.php>
