@@ -16,30 +16,31 @@ description: Line endings summary on different OS
 If you are developing softwares on cross-platform projects (e.g. Windows/Linux/MacOS), you will find that the line endings is sometimes pretty annoying, especially when reading files.
 
 ## Outline
-1. [Line Endings (Line Seperators)](#i-line-ending-formats)
-    * Carriage Return (CR)
-    * Line Feed (LR)
+1. [Line Endings Format](#i-line-ending-formats)
+    * Control Characters: Carriage Return (CR), Line Feed (LR)
 
-2. [How to Look-Up / Change Text's Terminators](#ii-look-up--change-texts-terminators)
+2. [Look-Up, Convert Text File's Terminators](#ii-look-up--change-texts-terminators)
 
-3. [[Git] Auto-Corrent Line Ending Format on Cross-Platform Projects](#iii-auto-correct-gits-text-line-ending)
-    * [Git Configuration](#solution-1-git-configuration)
-    * [Setup .gitattributes](#solution-2-gitattribute)
+3. [For Cross-Platform Projects: Auto-Correct Line Ending Format (Git)](#iii-auto-correct-gits-text-line-ending)
+    * [Sol 1: Git Configuration](#solution-1-git-configuration)
+    * [Sol 2: Setup .gitattributes](#solution-2-gitattribute)
 
-4. [[Git] Ignore File Mode on Cross-Platform Projects](#iv-ignore-file-mode)
+4. [For Cross-Platform Projects: Ignore File Mode](#iv-ignore-file-mode)
 
 ---
 
 ## I. Line Ending Formats
 
-There are two kinds of line endings, **Carriage Return** (CR, the code is \r) and **Line Feed** (LF, the code is \n).
+There are mainly two kinds of control characters for line endings, **Carriage Return** (CR, the code is \r) and **Line Feed** (LF, the code is \n).
 
 On different OS, different line ending is used.
 
 * OSX, Linux: **LF (\n)**
 * Legacy MacOS (MacOS 9 and earlier): **CR (\r)**
-* Windows: **CRLR (\r\n)** pair
+* Windows: **CR LR pair (\r\n)**
     * Carriage return points the cursor to the beginning of the line horizontly and Line feed shifts the cursor to the next line vertically. Combination of both gives you new line(\n) effect.
+
+You can find more details on [Wiki](https://en.wikipedia.org/wiki/Newline#Representation).
 
 ---
 
